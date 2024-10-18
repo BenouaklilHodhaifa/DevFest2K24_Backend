@@ -39,7 +39,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
                     self.create_manager_profile(user, profile_data)
                 
                 case User.Operator:
-                    self.create_directeur_regional_profile(user, profile_data)
+                    self.create_operator_profile(user, profile_data)
                 
                 case _:
                     raise ValueError("Invalid user type")
@@ -69,6 +69,54 @@ class UserCreateSerializer(serializers.ModelSerializer):
             except Team.DoesNotExist:
                 raise serializers.ValidationError(f'Team with id {team_id} does not exist')
 
-        operator_profile = OperatorProfile.objects.create(user=user, **profile_data)
-        operator_profile.teams.set(teams)
-        operator_profile.save()
+        OperatorProfile.objects.create(user=user, **profile_data)
+        
+        for team in teams:
+            team.operators.add(user)
+            team.save()
+
+class AccountSerializer(serializers.ModelSerializer):
+    profile = serializers.SerializerMethodField()
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'user_type', 'profile']
+
+    def get_profile(self, obj):
+        if obj.user_type == User.Manager:
+            return ManagerProfileSerializer(obj.manager_profile).data
+        elif obj.user_type == User.Operator:
+            return OperatorProfileSerializer(obj.operator_profile).data
+        return None
+
+class ManagerProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ManagerProfile
+        fields = ['id', 'user']
+
+class TeamSerializer(serializers.ModelSerializer):
+    operators = serializers.PrimaryKeyRelatedField(queryset=Account.objects.all(), many=True, required=False)
+    class Meta:
+        model = Team
+        fields = ['id', 'name', 'machine_id', 'operators']
+        extra_kwargs = {
+            'operators': {'required': False}
+        }
+    
+    def create(self, validated_data):
+        operators_data = validated_data.pop('operators', [])
+        team = super().create(validated_data)
+        team.operators.set(operators_data)
+        team.save()
+        return team
+    
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response['operators'] = AccountSerializer(instance.operators.all(), many=True).data
+        return response
+
+class OperatorProfileSerializer(serializers.ModelSerializer):
+    teams = serializers.PrimaryKeyRelatedField(many=True, read_only=True, source='user.teams')
+    class Meta:
+        model = OperatorProfile
+        fields = ['id', 'teams']
