@@ -141,7 +141,7 @@ def stamping_press(request):
 	processed_data = dict(request.data)
 	# Adding a random production_rate for simulation
 	processed_data["production_rate"] = 20 * random()
-	processed_data, defect = fill_OON(request.data, "stamping_press")
+	processed_data, defect = fill_OON(processed_data, "stamping_press")
 	if defect :
 		Notification.objects.create(
 			title = "Stamping Machine Defect",
@@ -209,7 +209,7 @@ def cnc_milling(request):
 	processed_data = dict(request.data)
 	# Adding a random production_rate for simulation
 	processed_data["production_rate"] = 20 * random()
-	processed_data, defect = fill_OON(request.data, "cnc_milling")
+	processed_data, defect = fill_OON(processed_data, "cnc_milling")
 	if defect :
 		Notification.objects.create(
 			title = "CNC Machine Defect",
@@ -230,7 +230,7 @@ def leak_test(request):
 	processed_data["production_rate"] = 20 * random()
 	# Adding a randomly generated power_consumption data field for simulation
 	processed_data["power_consumption"] = 20 * random()
-	processed_data, defect = fill_OON(request.data, "leak_test")
+	processed_data, defect = fill_OON(processed_data, "leak_test")
 	if defect :
 		Notification.objects.create(
 			title = "Leak Machine Defect",
