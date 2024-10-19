@@ -1,4 +1,5 @@
-from rest_framework.decorators import api_view
+from rest_framework.permissions import AllowAny
+from rest_framework.decorators import api_view, permission_classes
 from .. import serializers
 from django.http import JsonResponse
 
@@ -98,6 +99,7 @@ def fill_OON(data, norm):
 	return new_data
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def welding(request):
 	processed_data = dict(request.data)
 	processed_data["arm_position_x"] = request.data["arm_position"]["x"]
@@ -112,6 +114,7 @@ def welding(request):
 	return JsonResponse(serializer.errors, status=400)
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def stamping_press(request):
 	processed_data = fill_OON(request.data, "stamping_press")
 	serializer = serializers.StampingPressSerializer(data = processed_data)
@@ -121,6 +124,7 @@ def stamping_press(request):
 	return JsonResponse(serializer.errors, status=400)
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def painting_robot(request):
 	processed_data = dict(request.data)
 	processed_data["arm_position_x"] = request.data["arm_position"]["x"]
@@ -135,6 +139,7 @@ def painting_robot(request):
 	return JsonResponse(serializer.errors, status=400)
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def agv(request):
 	processed_data = dict(request.data)
 	processed_data["location_x"] = request.data["location"]["x"]
@@ -149,6 +154,7 @@ def agv(request):
 	return JsonResponse(serializer.errors, status=400)
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def cnc_milling(request):
 	processed_data = fill_OON(request.data, "cnc_milling")
 	serializer = serializers.CNCMillingSerializer(data = processed_data)
@@ -158,6 +164,7 @@ def cnc_milling(request):
 	return JsonResponse(serializer.errors, status=400)
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def leak_test(request):
 	processed_data = fill_OON(request.data, "leak_test")
 	serializer = serializers.LeakTestSerializer(data = processed_data)
