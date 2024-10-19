@@ -281,3 +281,17 @@ class LeakTest(models.Model):
 
 	def __str__(self):
 		return f"Machine {self.machine_id} - {self.timestamp}"
+
+class Notification(models.Model):
+    MANAGERS_INTEREST_GROUP = 'managers'
+    WELDING_INTEREST_GROUP = 'welding'
+    STAMPING_PRESS_INTEREST_GROUP = 'stamping_press'
+    PAINTING_ROBOT_INTEREST_GROUP = 'painting_robot'
+    AGV_INTEREST_GROUP = 'agv'
+    CNC_MILLING_INTEREST_GROUP = 'cnc_milling'
+    LEAK_TEST_INTEREST_GROUP = 'leak_test'
+
+    title = models.CharField(max_length=255)
+    content = models.CharField(max_length=255 )
+    interest_group = models.CharField(max_length=255)
+    timestamp = models.DateTimeField(auto_now_add=True)
