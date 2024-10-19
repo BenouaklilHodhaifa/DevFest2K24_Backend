@@ -120,3 +120,33 @@ class OperatorProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = OperatorProfile
         fields = ['id', 'teams']
+
+class WeldingSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Welding
+		fields = "__all__"
+
+class StampingPressSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = StampingPress
+		fields = "__all__" 
+
+class PaintingRobotSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = PaintingRobot
+		fields = "__all__"
+
+class AGVSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = AGV
+		fields = "__all__"
+
+class CNCMillingSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = CNCMilling
+		fields = "__all__"
+
+class LeakTestSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = LeakTest
+		fields = "__all__"
