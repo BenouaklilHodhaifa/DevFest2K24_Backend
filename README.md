@@ -31,15 +31,22 @@ This Django-based backend manages the data needs for the Factory 86 factory mana
 Once cloned, create a python or conda virtual environment, install the dependencies in requirements.txt, and then follow the steps to launch the server :
 1. Our repo is configured to work with PostGRES, so create a new PostGRES database, and copy the credentials in a .env file in the root directory of the repo like so:
 ```yaml
-DB_NAME=
-DB_USER=
-DB_PASSWORD=
-DB_HOST=
-DB_PORT=
+DB_NAME=devfest2k24_db
+DB_USER=devfest2k24_db_user
+DB_PASSWORD=aLOSZHBymFWYJVuZbRfP8G3TN6vA8M5X
+DB_HOST=dpg-cs8lngt6l47c73djjmb0-a.frankfurt-postgres.render.com
+DB_PORT=5432
+PUSHER_INSTANCE_ID=81c0ae68-e069-4f61-b077-f32109ad8497
+PUSHER_PRIMARY_KEY=0EC9A4DC914ACE1E725990007D9D90D7F6BF5B16E8C8EE8436A1D663A29D024F
+
+PUSHER_APP_ID="1881989"
+PUSHER_KEY="7d6ea766b63cf2c27687"
+PUSHER_SECRET="22a589d1c0b7be4baff2"
+PUSHER_CLUSTER="eu"
 ```
 2. in the root folder run : python manage.py makemigrations
 3. in the root folder run : python manage.py migrate
 4. in the root folder launch a local development server with : python manage.py runserver
 
 ## ⚙️ API Documentation
-The API documentation can be found on the postman project at the following link : 
+The API documentation can be found on the postman project at the following link : https://documenter.getpostman.com/view/25080355/2sAXxWbA2u
