@@ -72,13 +72,14 @@ class Account(AbstractUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name', 'user_type']
 
-    objects = UserAccountManager()
-
-    # class Meta:
-    #     permissions = (
-    #         ('assign_secteur_to_livreur', 'Can a secteur to a livreur'),
-    #         ('change_livreur_days_off', 'Can change livreur days off'),
-    #     )
+    objects = UserAccountManager() 
+    def get_interest_groups(self):
+            if self.user_type == Account.Manager:
+                   return InterestGroups.INTEREST_GROUPS
+            else:
+                  teams = self.operator_profile.teams.all()
+                  user_interest_groups = [team.interest_group for team in teams]
+                  return user_interest_groups
 
     def __str__(self):
         return self.username
@@ -313,3 +314,15 @@ class Notification(models.Model):
     content = models.CharField(max_length=255 )
     interest_group = models.CharField(max_length=255)
     timestamp = models.DateTimeField(auto_now_add=True)
+
+class Task(models.Model):
+    STATUS_TO_DO = 'To Do'
+    STATUS_IN_PROGRESS = 'In Progress'
+    STATUS_DONE = 'Done'
+    
+    title = models.CharField(max_length=255)
+    content = models.CharField(max_length=255)
+    interest_group = models.CharField(max_length=255)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=255, default='To Do') # To Do, In Progress, Done
+    completed_timestamp = models.DateTimeField(null=True, blank=True, default=None)

@@ -1,6 +1,6 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from .models import Notification
+from .models import Notification, Task
 from pusher_push_notifications import PushNotifications
 import environ
 import os
@@ -15,16 +15,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-@receiver(post_save, sender=Notification)
-def send_notification(sender, instance, created, **kwargs):
-    if created:
-
-        beams_client = PushNotifications(
+def send_notification(instance):
+    beams_client = PushNotifications(
             instance_id=env('PUSHER_INSTANCE_ID'),
             secret_key=env('PUSHER_PRIMARY_KEY'),
         )
-
-        response = beams_client.publish_to_interests(
+    
+    beams_client.publish_to_interests(
         interests=[instance.interest_group],
         publish_body={
             'web': {
@@ -35,4 +32,19 @@ def send_notification(sender, instance, created, **kwargs):
             },
             },
         },
+        )
+    
+@receiver(post_save, sender=Notification)
+def notification_created_handler(sender, instance, created, **kwargs):
+    if created:
+        send_notification(instance)
+
+
+@receiver(post_save, sender=Task)
+def task_created_handler(sender, instance, created, **kwargs):
+    if created:
+        Notification.objects.create(
+            title=f"Task {instance.title} has been created",
+            content=f"Task content: {instance.content}",
+            interest_group=instance.interest_group
         )
