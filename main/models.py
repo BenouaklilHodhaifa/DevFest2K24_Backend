@@ -112,7 +112,7 @@ class Welding(models.Model):
 	weld_strength_estimate = models.FloatField(help_text="Estimated weld strength in N")
 	vibration_level = models.FloatField(help_text="Vibration level in mm/s")
 	power_consumption = models.FloatField(help_text="Power consumption in kWh")
-	
+	production_rate = models.FloatField(help_text="Production rate of the machine")
 	# Out Of Norm fields
 	weld_temperature_OON = models.BooleanField()
 	weld_current_OON = models.BooleanField()
@@ -127,6 +127,7 @@ class Welding(models.Model):
 	weld_strength_estimate_OON = models.BooleanField()
 	vibration_level_OON = models.BooleanField()
 	power_consumption_OON = models.BooleanField()
+	production_rate_OON = models.BooleanField()
 	
 
 	timestamp = models.DateTimeField(help_text="Timestamp of the data")
@@ -145,6 +146,7 @@ class StampingPress(models.Model):
 	die_alignment = models.CharField(max_length=100, help_text="Die alignment status")
 	sheet_thickness = models.FloatField(help_text="Sheet thickness in mm")
 	power_consumption = models.FloatField(help_text="Power consumption in kWh")
+	production_rate = models.FloatField(help_text="Production rate of the machine")
 	noise_level = models.FloatField(help_text="Noise level in dB")
 	lubrication_flow_rate = models.FloatField(help_text="Lubrication flow rate in ml/min")
 
@@ -160,6 +162,7 @@ class StampingPress(models.Model):
 	power_consumption_OON = models.BooleanField()
 	noise_level_OON = models.BooleanField()
 	lubrication_flow_rate_OON = models.BooleanField()
+	production_rate_OON = models.BooleanField()
 
 	timestamp = models.DateTimeField(help_text="Timestamp of the data")
 
@@ -181,7 +184,8 @@ class PaintingRobot(models.Model):
 	overspray_capture_efficiency = models.FloatField(help_text="Overspray capture efficiency in %")
 	booth_airflow_velocity = models.FloatField(help_text="Booth airflow velocity in m/s")
 	solvent_concentration = models.FloatField(help_text="Solvent concentration in %")
-
+	power_consumption = models.FloatField(help_text="Power consumption in kWh")
+	production_rate = models.FloatField(help_text="Production rate of the machine")
 	# Out Of Norm fields
 	spray_pressure_OON = models.BooleanField()
 	paint_thickness_OON = models.BooleanField()
@@ -196,7 +200,9 @@ class PaintingRobot(models.Model):
 	overspray_capture_efficiency_OON = models.BooleanField()
 	booth_airflow_velocity_OON = models.BooleanField()
 	solvent_concentration_OON = models.BooleanField()
-	
+	power_consumption_OON = models.BooleanField()
+	production_rate_OON = models.BooleanField()
+
 	timestamp = models.DateTimeField(help_text="Timestamp of the data")
 
 	def __str__(self):
@@ -216,7 +222,8 @@ class AGV(models.Model):
 	vibration_level = models.FloatField(help_text="Vibration level in mm/s")
 	temperature = models.FloatField(help_text="Temperature in °C")
 	wheel_rotation_speed = models.FloatField(help_text="Wheel rotation speed in RPM")
-
+	power_consumption = models.FloatField(help_text="Power consumption in kWh")
+	production_rate = models.FloatField(help_text="Production rate of the machine")
 	# Out Of Norm fields
 	location_x_OON = models.BooleanField()
 	location_y_OON = models.BooleanField()
@@ -230,7 +237,8 @@ class AGV(models.Model):
 	vibration_level_OON = models.BooleanField()
 	temperature_OON = models.BooleanField()
 	wheel_rotation_speed_OON = models.BooleanField()
-
+	power_consumption_OON = models.BooleanField()
+	production_rate_OON = models.BooleanField()
 
 	timestamp = models.DateTimeField(help_text="Timestamp of the data")
 
@@ -247,6 +255,7 @@ class CNCMilling(models.Model):
 	coolant_flow_rate = models.FloatField(help_text="Coolant flow rate in ml/min")
 	material_hardness = models.FloatField(help_text="Material hardness in HB (Brinell hardness)")
 	power_consumption = models.FloatField(help_text="Power consumption in kWh")
+	production_rate = models.FloatField(help_text="Production rate of the machine")
 	temperature = models.FloatField(help_text="Temperature in °C")
 	chip_load = models.FloatField(help_text="Chip load in mm")
 
@@ -259,6 +268,7 @@ class CNCMilling(models.Model):
 	coolant_flow_rate_OON = models.BooleanField()
 	material_hardness_OON = models.BooleanField()
 	power_consumption_OON = models.BooleanField()
+	production_rate_OON = models.BooleanField()
 	temperature_OON = models.BooleanField()
 	chip_load_OON = models.BooleanField()
 	
@@ -279,7 +289,8 @@ class LeakTest(models.Model):
 	fluid_type = models.CharField(max_length=100, help_text="Type of fluid used for the test")
 	seal_condition = models.CharField(max_length=100, choices=[('good', 'Good'), ('warning', 'Warning'), ('fail', 'Fail')], help_text="Condition of the seal")
 	test_cycle_count = models.IntegerField(help_text="Number of test cycles")
-	
+	power_consumption = models.FloatField(help_text="Power consumption in kWh")
+	production_rate = models.FloatField(help_text="Production rate of the machine")
 	# Out Of Norm fields
 	test_pressure_OON = models.BooleanField()
 	pressure_drop_OON = models.BooleanField()
@@ -289,7 +300,9 @@ class LeakTest(models.Model):
 	status_OON = models.BooleanField()
 	seal_condition_OON = models.BooleanField()
 	test_cycle_count_OON = models.BooleanField()
-
+	power_consumption_OON = models.BooleanField()
+	production_rate_OON = models.BooleanField()
+      
 	timestamp = models.DateTimeField(help_text="Timestamp of the data")
 
 	def __str__(self):
