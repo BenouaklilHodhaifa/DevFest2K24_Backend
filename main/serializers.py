@@ -155,3 +155,8 @@ class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notification
         fields = ['id', 'title', 'content', 'interest_group', 'timestamp']
+
+class TaskSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task
+        fields = ['id', 'title', 'content', 'interest_group', 'timestamp', 'status', 'completed_timestamp']
