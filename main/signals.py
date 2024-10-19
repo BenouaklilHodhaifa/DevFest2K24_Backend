@@ -1,14 +1,13 @@
 from django.db.models.signals import post_save
-from django.dispatch import receiver
+from django.dispatch import receiver, Signal
 from .models import Notification, Task
+import pusher
 from pusher_push_notifications import PushNotifications
 import environ
 import os
 from pathlib import Path
 
-# # a signal to be sent when a user account is created, we didn't use the built-in django signal because
-# # we are using transaction.atomic() and the post_save signal will be sent after .save() is called and not after a successfull transaction
-# user_account_saved = Signal()
+real_time_update = Signal()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -33,6 +32,16 @@ def send_notification(instance):
             },
         },
         )
+
+@receiver(real_time_update)
+def send_real_time_updates(channel, event, data, **kwargs):
+    app_id = str(env('PUSHER_APP_ID'))
+    key = str(env('PUSHER_KEY'))
+    secret = str(env('PUSHER_SECRET'))
+    cluster = str(env('PUSHER_CLUSTER'))
+    pusher_client = pusher.Pusher(app_id=app_id, key=key, secret=secret, cluster=cluster)
+
+    pusher_client.trigger(str(channel), str(event), data)
     
 @receiver(post_save, sender=Notification)
 def notification_created_handler(sender, instance, created, **kwargs):
