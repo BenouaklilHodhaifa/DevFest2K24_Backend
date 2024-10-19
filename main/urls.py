@@ -1,5 +1,5 @@
 from django.urls import path, re_path, include
-from . views import account, team
+from . views import account, notification, team
 from .views import sensors_loading
 from .views import sensors_uploading
 
@@ -16,5 +16,6 @@ urlpatterns = [
 	path('sensors-loading/agv', sensors_loading.agv),
 	path('sensors-loading/cnc-milling', sensors_loading.cnc_milling),
 	path('sensors-loading/leak-test', sensors_loading.leak_test),
-	path('sensors-uploading/get-sensors-logs/', sensors_uploading.get_sensors_logs)
+	path('sensors-uploading/get-sensors-logs/', sensors_uploading.get_sensors_logs),
+    path('notifications/', notification.notification_list),
 ]

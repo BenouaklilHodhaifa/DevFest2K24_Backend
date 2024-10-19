@@ -3,7 +3,6 @@ from rest_framework import status
 from ..serializers import *
 from ..models import *
 from rest_framework.decorators import api_view
-from rest_framework.serializers import ValidationError
 from django.db import transaction, IntegrityError
 from django.db import transaction
 
@@ -20,6 +19,10 @@ def team_list(request):
                 with transaction.atomic():
                     serializer = TeamSerializer(data=request.data)
                     if serializer.is_valid():
+                        interest_group = request.data.get('interest_group')
+                        if interest_group not in InterestGroups.INTEREST_GROUPS:
+                            return Response({'error': 'interest_group is not valid'}, status=status.HTTP_400_BAD_REQUEST)
+                        
                         serializer.save()
                         return Response(serializer.data, status=status.HTTP_201_CREATED)
                     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
