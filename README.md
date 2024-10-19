@@ -50,3 +50,29 @@ PUSHER_CLUSTER="eu"
 
 ## ⚙️ API Documentation
 The API documentation can be found on the postman project at the following link : https://documenter.getpostman.com/view/25080355/2sAXxWbA2u
+
+credentials to use the api:
+```yaml
+Manager:
+  email: admin@example.com
+  password: admin
+Operators:
+here we have all types of operator:
+  email:operator_welding@example.com
+  passsword:operator
+
+  email:operator_stamping_press@example.com
+  passsword:operator
+
+  email:operator_painting_robot@example.com
+  passsword:operator
+
+  email:operator_agv@example.com
+  passsword:operator
+
+  email:operator_cnc_milling@example.com
+  passsword:operator
+
+  email:operator_leak_test@example.com
+  passsword:operator
+```
