@@ -160,7 +160,7 @@ def painting_robot(request):
 	processed_data = dict(request.data)
 	# Adding a random production_rate for simulation
 	processed_data["production_rate"] = 20 * random()
-	processed_data["power_consumption"] = 20 * random.random()
+	processed_data["power_consumption"] = 20 * random()
 	processed_data["arm_position_x"] = request.data["arm_position"]["x"]
 	processed_data["arm_position_y"] = request.data["arm_position"]["y"]
 	processed_data["arm_position_z"] = request.data["arm_position"]["z"]
