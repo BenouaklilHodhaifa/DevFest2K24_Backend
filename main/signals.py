@@ -36,5 +36,3 @@ def send_notification(sender, instance, created, **kwargs):
             },
         },
         )
-
-        print(response)

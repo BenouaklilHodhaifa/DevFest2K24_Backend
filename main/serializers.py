@@ -98,7 +98,7 @@ class TeamSerializer(serializers.ModelSerializer):
     operators = serializers.PrimaryKeyRelatedField(queryset=Account.objects.all(), many=True, required=False)
     class Meta:
         model = Team
-        fields = ['id', 'name', 'machine_id', 'operators']
+        fields = ['id', 'name', 'machine_id', 'operators', 'interest_group']
         extra_kwargs = {
             'operators': {'required': False}
         }
@@ -150,3 +150,8 @@ class LeakTestSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = LeakTest
 		fields = "__all__"
+
+class NotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notification
+        fields = ['id', 'title', 'content', 'interest_group', 'timestamp']
