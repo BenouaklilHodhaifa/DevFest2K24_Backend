@@ -1,17 +1,45 @@
-# Factory 86 Backend
-This Django based backend is in charge of the data needs for the Factory 86 factory management application.
-The repository structure is as follows:
-- DevFest2k24_Backend/ : is the default folder created with the Django project. Its most important files are :
-  - settings.py : sets the global settings of the project
-  - urls.py : which acts a main url dispatcher, currently redirects all urls to the main/ app.
-- main/ : is the main and single app of the Django project, the most important files and folders are :
-  - models.py : defines the models that interface with the database tables such as StampingPress, PaintingRobot or AGV which all inherit form django.models.Model.
-  - serializers.py : defines the class based serializers inherited from Django Rest Framework ModelSerializer. They allow to convert back and forth between complex Django Model instances and native python datatypes.
-  - urls.py : which is the local url dispatcher for the main/ app. It contains the urls of the different endpoints and links them to the appropriate views.
-  - views/ : this folder contains the views that will handle the requests. The views are separated into different python files according to their concerns :
-    - sensors_loading.py : contains views that receive the POST requests from the sensors in order to load their data into the database. Each type of sensor has a dedicted view.
-    - sensors_uploading.py : currently contains one view responsible for providing the logged sensors data to the front end.
-    - account.py : contains the views responsible for managing account related operations such as account listing.
-    - notification.py : for now only contains the view for retrieving the logged notifications in the database. The notifications are also sent in real time.
-    - task.py : contains views in charge of the automatic task management logic such as getting a list of the (automatically) created tasks and changing tasks status to in progress or done.
-    - team.py : these views handle the operator teams logic.
+You can enhance your README by using tables, emojis, and some additional formatting for clarity. Here's a styled version with a table, relevant emojis, and some structured headings:
+
+---
+
+# 🏭 Factory 86 Backend
+
+This Django-based backend manages the data needs for the Factory 86 factory management application.
+
+## 📂 Repository Structure
+
+| Folder / File | Description |
+|---------------|-------------|
+| :file_folder: **DevFest2k24_Backend/** | The default folder created with the Django project. Its most important files are: |
+| :page_facing_up: **settings.py** | Global settings for the project. |
+| :page_facing_up: **urls.py** | Main URL dispatcher, currently redirects all URLs to the `main/` app. |
+| :file_folder: **main/** | The primary app of the Django project. The key files and folders are: |
+| :page_facing_up: **models.py** | Defines models that interface with the database, such as `StampingPress`, `PaintingRobot`, and `AGV` (all inherit from `django.models.Model`). |
+| :page_facing_up: **serializers.py** | Contains class-based serializers inherited from `Django Rest Framework ModelSerializer`. They convert between complex Django Model instances and native Python data types. |
+| :page_facing_up: **urls.py** | Local URL dispatcher for the `main/` app, linking endpoints to the appropriate views. |
+| :file_folder: **views/** | Contains views that handle requests. The views are categorized by different concerns: |
+| :page_facing_up: **sensors_loading.py** | Handles POST requests from sensors, storing their data in the database. Each sensor type has a dedicated view. |
+| :page_facing_up: **sensors_uploading.py** | Provides logged sensor data to the frontend. |
+| :page_facing_up: **account.py** | Manages account-related operations, such as account listing. |
+| :page_facing_up: **notification.py** | Retrieves logged notifications from the database and sends them in real time. |
+| :page_facing_up: **task.py** | Manages automatic task logic, such as listing tasks and updating their statuses. |
+| :page_facing_up: **team.py** | Handles logic related to operator teams. |
+
+---
+
+## 🏃 Runing the server
+Once cloned, create a python or conda virtual environment, install the dependencies in requirements.txt, and then follow the steps to launch the server :
+1. Our repo is configured to work with PostGRES, so create a new PostGRES database, and copy the credentials in a .env file in the root directory of the repo like so:
+```yaml
+DB_NAME=
+DB_USER=
+DB_PASSWORD=
+DB_HOST=
+DB_PORT=
+```
+2. in the root folder run : python manage.py makemigrations
+3. in the root folder run : python manage.py migrate
+4. in the root folder launch a local development server with : python manage.py runserver
+
+## ⚙️ API Documentation
+The API documentation can be found on the postman project at the following link : 
