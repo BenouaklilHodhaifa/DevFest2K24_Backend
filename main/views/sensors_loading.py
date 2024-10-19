@@ -2,7 +2,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.decorators import api_view, permission_classes
 from .. import serializers
 from django.http import JsonResponse
-from ..models import Notification
+from ..models import Notification, InterestGroups
 from random import random
 
 
@@ -127,7 +127,7 @@ def welding(request):
 		Notification.objects.create(
 			title = "Welding Machine Defect",
 			content = "Some fields retured by the sensor were Out Of Norm",
-			interest_group = Notification.WELDING_INTEREST_GROUP
+			interest_group = InterestGroups.WELDING_INTEREST_GROUP
 		)
 	serializer = serializers.WeldingSerializer(data = processed_data)
 	if serializer.is_valid():
@@ -146,7 +146,7 @@ def stamping_press(request):
 		Notification.objects.create(
 			title = "Stamping Machine Defect",
 			content = "Some fields retured by the sensor were Out Of Norm",
-			interest_group = Notification.STAMPING_PRESS_INTEREST_GROUP
+			interest_group = InterestGroups.STAMPING_PRESS_INTEREST_GROUP
 		)	
 	serializer = serializers.StampingPressSerializer(data = processed_data)
 	if serializer.is_valid():
@@ -170,7 +170,7 @@ def painting_robot(request):
 		Notification.objects.create(
 			title = "Painting Machine Defect",
 			content = "Some fields retured by the sensor were Out Of Norm",
-			interest_group = Notification.PAINTING_ROBOT_INTEREST_GROUP
+			interest_group = InterestGroups.PAINTING_ROBOT_INTEREST_GROUP
 		)
 	serializer = serializers.PaintingRobotSerializer(data = processed_data)
 	if serializer.is_valid():
@@ -195,7 +195,7 @@ def agv(request):
 		Notification.objects.create(
 			title = "AGV Machine Defect",
 			content = "Some fields retured by the sensor were Out Of Norm",
-			interest_group = Notification.AGV_INTEREST_GROUP
+			interest_group = InterestGroups.AGV_INTEREST_GROUP
 		)	
 	serializer = serializers.AGVSerializer(data = processed_data)
 	if serializer.is_valid():
@@ -214,7 +214,7 @@ def cnc_milling(request):
 		Notification.objects.create(
 			title = "CNC Machine Defect",
 			content = "Some fields retured by the sensor were Out Of Norm",
-			interest_group = Notification.CNC_MILLING_INTEREST_GROUP
+			interest_group = InterestGroups.CNC_MILLING_INTEREST_GROUP
 		)
 	serializer = serializers.CNCMillingSerializer(data = processed_data)
 	if serializer.is_valid():
@@ -235,7 +235,7 @@ def leak_test(request):
 		Notification.objects.create(
 			title = "Leak Machine Defect",
 			content = "Some fields retured by the sensor were Out Of Norm",
-			interest_group = Notification.LEAK_TEST_INTEREST_GROUP
+			interest_group = InterestGroups.LEAK_TEST_INTEREST_GROUP
 		)
 	serializer = serializers.LeakTestSerializer(data = processed_data)
 	if serializer.is_valid():
