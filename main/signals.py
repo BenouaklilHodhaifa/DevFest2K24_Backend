@@ -41,10 +41,10 @@ def send_real_time_updates(channel, event, data, **kwargs):
     cluster = str(env('PUSHER_CLUSTER'))
     pusher_client = pusher.Pusher(app_id=app_id, key=key, secret=secret, cluster=cluster)
 
-    channel_info = pusher_client.channel_info(channel, [u"user_count"])
-    if channel_info[u'occupied']:
-        print("Channel is occupied")
-        pusher_client.trigger(str(channel), str(event), data)
+    # channel_info = pusher_client.channel_info(channel, [u"user_count"])
+    # if channel_info[u'occupied']:
+    #     print("Channel is occupied")
+    pusher_client.trigger(str(channel), str(event), data)
     
 @receiver(post_save, sender=Notification)
 def notification_created_handler(sender, instance, created, **kwargs):
