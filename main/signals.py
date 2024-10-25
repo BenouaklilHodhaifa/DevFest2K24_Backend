@@ -41,10 +41,12 @@ def send_notification(instance):
 
 @receiver(real_time_update)
 def send_real_time_updates(channel, event, data, **kwargs):
-    # channel_info = pusher_client.channel_info(channel, [u"user_count"])
-    # if channel_info[u'occupied']:
-    #     print("Channel is occupied")
-    pusher_client.trigger(str(channel), str(event), data)
+    channel_info = pusher_client.channel_info(channel, [u"user_count"])
+    if channel_info[u'occupied']:
+        print("Channel is occupied")
+        users = pusher_client.users_info(channel)['users']
+        print(users)
+        pusher_client.trigger(str(channel), str(event), data)
     
 @receiver(post_save, sender=Notification)
 def notification_created_handler(sender, instance, created, **kwargs):
