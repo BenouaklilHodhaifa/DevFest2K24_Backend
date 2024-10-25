@@ -328,9 +328,9 @@ class Task(models.Model):
     completed_timestamp = models.DateTimeField(null=True, blank=True, default=None)
 
 class KPI(models.Model):
-    timestamp = models.DateTimeField(unique=True)
+    timestamp = models.DateTimeField()
     kpi_value = models.FloatField()
     status = models.BooleanField()
     kpi_name = models.CharField(max_length=255)
     class Meta:
-    	unique_together = ('timestamp', 'kpi_name',)
+    	unique_together = ['timestamp', 'kpi_name']

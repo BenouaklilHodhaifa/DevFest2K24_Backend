@@ -43,8 +43,10 @@ def kpi_list(request):
     kpi_name = request.query_params.get('kpi_name', None)
     if not kpi_name:
         return Response({'error': 'kpi_name request param wasn\'t set'}, status=400)
-    
-    latest_kpi = KPI.objects.filter(kpi_name=kpi_name).latest('timestamp')
+    try:
+        latest_kpi = KPI.objects.filter(kpi_name=kpi_name).latest('timestamp')
+    except KPI.DoesNotExist:
+        return Response({'error': 'No KPIs found for the given name'}, status=404)
 
     base_time = latest_kpi.timestamp
     time_frame = [base_time - timedelta(hours=1), base_time]
