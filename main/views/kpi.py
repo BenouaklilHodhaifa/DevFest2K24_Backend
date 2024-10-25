@@ -31,7 +31,10 @@ def log_kpi(request):
         sender=None,
         channel=to_snake_case(kpi.kpi_name),
         event='new_data',
-        data=serializer.data
+        data={
+            "history": serializer.data,
+            "predicted": []
+        }
         )
 
         return Response(serializer.data, status=201)
