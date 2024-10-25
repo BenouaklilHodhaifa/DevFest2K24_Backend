@@ -6,10 +6,9 @@ from ..signals import pusher_client
 @api_view(['POST'])
 def pusher_authentication(request):
     user = Account.objects.get(email=request.user)
-
     auth = pusher_client.authenticate(
-        channel=request.form['channel_name'],
-        socket_id=request.form['socket_id'],
+        channel=request.POST['channel_name'],
+        socket_id=request.POST['socket_id'],
         custom_data={
         u'user_id': user.id,
         }
