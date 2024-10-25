@@ -1,5 +1,5 @@
 from django.urls import path, re_path, include
-from .views import account, notification, team, task, kpi
+from .views import account, notification, team, task, kpi, pusher
 from .views import sensors_loading
 from .views import sensors_uploading
 
@@ -23,4 +23,5 @@ urlpatterns = [
     path('tasks/<int:pk>/done/', task.change_status_done),
     path('kpi/', kpi.log_kpi),
     path('kpi/list/', kpi.kpi_list),
+    path('/pusher/auth', pusher.pusher_authentication)
 ]

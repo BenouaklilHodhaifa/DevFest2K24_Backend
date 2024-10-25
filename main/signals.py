@@ -14,12 +14,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-def send_notification(instance):
-    beams_client = PushNotifications(
+app_id = str(env('PUSHER_APP_ID'))
+key = str(env('PUSHER_KEY'))
+secret = str(env('PUSHER_SECRET'))
+cluster = str(env('PUSHER_CLUSTER'))
+pusher_client = pusher.Pusher(app_id=app_id, key=key, secret=secret, cluster=cluster)
+
+beams_client = PushNotifications(
             instance_id=env('PUSHER_INSTANCE_ID'),
             secret_key=env('PUSHER_PRIMARY_KEY'),
         )
-    
+
+def send_notification(instance):   
     beams_client.publish_to_interests(
         interests=[instance.interest_group],
         publish_body={
@@ -35,12 +41,6 @@ def send_notification(instance):
 
 @receiver(real_time_update)
 def send_real_time_updates(channel, event, data, **kwargs):
-    app_id = str(env('PUSHER_APP_ID'))
-    key = str(env('PUSHER_KEY'))
-    secret = str(env('PUSHER_SECRET'))
-    cluster = str(env('PUSHER_CLUSTER'))
-    pusher_client = pusher.Pusher(app_id=app_id, key=key, secret=secret, cluster=cluster)
-
     # channel_info = pusher_client.channel_info(channel, [u"user_count"])
     # if channel_info[u'occupied']:
     #     print("Channel is occupied")

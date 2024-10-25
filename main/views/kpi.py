@@ -5,9 +5,7 @@ from rest_framework.response import Response
 from ..models import KPI, Account
 from ..signals import real_time_update
 from datetime import datetime, timedelta
-from django.utils import timezone
 from main.signals import real_time_update
-import inflection
 import re
 
 def to_snake_case(text):
@@ -36,7 +34,6 @@ def log_kpi(request):
             "predicted": []
         }
         )
-
         return Response(serializer.data, status=201)
     return Response(serializer.errors, status=400)
 
