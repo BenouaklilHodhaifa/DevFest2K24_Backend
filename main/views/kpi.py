@@ -11,10 +11,12 @@ import inflection
 import re
 
 def to_snake_case(text):
-    # Convert CamelCase or PascalCase to snake_case
+    # First, convert CamelCase or PascalCase to snake_case
     text = re.sub(r'(?<!^)(?=[A-Z])', '_', text).lower()
     # Convert spaces and hyphens to underscores
     text = re.sub(r'[\s\-]+', '_', text)
+    # Remove any duplicate underscores
+    text = re.sub(r'_+', '_', text)
     return text
 
 @api_view(['POST'])
