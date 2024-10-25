@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager, PermissionsMixin
 
 class InterestGroups:
-    MANAGERS_INTEREST_GROUP = 'managers'
+    MANAGERS_INTEREST_GROUP = 'alerts'
     WELDING_INTEREST_GROUP = 'welding'
     STAMPING_PRESS_INTEREST_GROUP = 'stamping_press'
     PAINTING_ROBOT_INTEREST_GROUP = 'painting_robot'
