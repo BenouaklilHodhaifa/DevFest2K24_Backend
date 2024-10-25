@@ -27,7 +27,7 @@ def log_kpi(request):
 
         real_time_update.send(
         sender=None,
-        channel="presence-" + to_snake_case(kpi.kpi_name),
+        channel=to_snake_case(kpi.kpi_name),
         event='new_data',
         data={
             "history": serializer.data,
