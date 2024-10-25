@@ -1,7 +1,6 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver, Signal
 from .models import Notification, Task
-import pusher
 from pusher_push_notifications import PushNotifications
 import environ
 import os
