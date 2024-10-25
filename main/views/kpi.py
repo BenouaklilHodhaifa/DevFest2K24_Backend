@@ -8,6 +8,14 @@ from datetime import datetime, timedelta
 from django.utils import timezone
 from main.signals import real_time_update
 import inflection
+import re
+
+def to_snake_case(text):
+    # Convert CamelCase or PascalCase to snake_case
+    text = re.sub(r'(?<!^)(?=[A-Z])', '_', text).lower()
+    # Convert spaces and hyphens to underscores
+    text = re.sub(r'[\s\-]+', '_', text)
+    return text
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -19,11 +27,11 @@ def log_kpi(request):
 
         real_time_update.send(
         sender=None,
-        channel=inflection.underscore(kpi.kpi_name),
+        channel=to_snake_case(kpi.kpi_name),
         event='new_data',
         data=serializer.data
         )
-        
+
         return Response(serializer.data, status=201)
     return Response(serializer.errors, status=400)
 
