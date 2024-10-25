@@ -160,3 +160,8 @@ class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
         fields = ['id', 'title', 'content', 'interest_group', 'timestamp', 'status', 'completed_timestamp']
+
+class KPISerializer(serializers.ModelSerializer):
+    class Meta:
+        model = KPI
+        fields = '__all__'

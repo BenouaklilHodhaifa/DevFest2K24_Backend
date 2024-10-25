@@ -326,3 +326,9 @@ class Task(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=255, default='To Do') # To Do, In Progress, Done
     completed_timestamp = models.DateTimeField(null=True, blank=True, default=None)
+
+class KPI(models.Model):
+    timestamp = models.DateTimeField(unique=True)
+    kpi_value = models.FloatField()
+    status = models.BooleanField()
+    kpi_name = models.CharField(max_length=255)
