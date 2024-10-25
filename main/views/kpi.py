@@ -2,7 +2,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.decorators import api_view, permission_classes
 from .. import serializers
 from rest_framework.response import Response
-from ..models import KPI, Account
+from ..models import KPI, Account, Notification, InterestGroups
 from ..signals import real_time_update
 from datetime import datetime, timedelta
 from main.signals import real_time_update
@@ -34,6 +34,12 @@ def log_kpi(request):
             "predicted": []
         }
         )
+        if kpi.status == True:
+            Notification.objects.create(
+                title = "Out Of Norm",
+                content = f"KPI {kpi.kpi_name} is out of norm",
+                interest_group = InterestGroups.MANAGERS_INTEREST_GROUP
+            )	
         return Response(serializer.data, status=201)
     return Response(serializer.errors, status=400)
 
