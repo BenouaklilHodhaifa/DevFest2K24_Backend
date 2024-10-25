@@ -6,6 +6,8 @@ from ..models import KPI, Account
 from ..signals import real_time_update
 from datetime import datetime, timedelta
 from django.utils import timezone
+from main.signals import real_time_update
+import inflection
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -13,9 +15,16 @@ def log_kpi(request):
     serializer = serializers.KPISerializer(data=request.data)
     
     if serializer.is_valid():
-        serializer.save()
+        kpi = serializer.save()
+
+        real_time_update.send(
+        sender=None,
+        channel=inflection.underscore(kpi.kpi_name),
+        event='new_data',
+        data=serializer.data
+        )
+        
         return Response(serializer.data, status=201)
-    
     return Response(serializer.errors, status=400)
 
 @api_view(['GET'])
