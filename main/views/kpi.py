@@ -49,7 +49,7 @@ def kpi_list(request):
         serializer = serializers.KPISerializer(kpis, many=True)
         response = {
             'history': serializer.data,
-            'predicted': {}
+            'predicted': []
         }
         return Response(response)
     return Response({'error': 'You do not have permission to view KPIs'}, status=403)
