@@ -332,3 +332,5 @@ class KPI(models.Model):
     kpi_value = models.FloatField()
     status = models.BooleanField()
     kpi_name = models.CharField(max_length=255)
+    class Meta:
+    	unique_together = ('timestamp', 'kpi_name',)
