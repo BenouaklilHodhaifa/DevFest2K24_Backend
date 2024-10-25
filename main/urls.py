@@ -22,5 +22,5 @@ urlpatterns = [
     path('tasks/<int:pk>/in-progress/', task.change_status_in_progress),
     path('tasks/<int:pk>/done/', task.change_status_done),
     path('kpi/', kpi.log_kpi),
-    path('kpi/log/', kpi.log_kpi),
+    path('kpi/list/', kpi.kpi_list),
 ]

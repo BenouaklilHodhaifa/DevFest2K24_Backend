@@ -2,10 +2,10 @@ from rest_framework.permissions import AllowAny
 from rest_framework.decorators import api_view, permission_classes
 from .. import serializers
 from rest_framework.response import Response
-from ..models import Notification, InterestGroups, KPI, Account
+from ..models import KPI, Account
 from ..signals import real_time_update
-import datetime
-
+from datetime import datetime, timedelta
+from django.utils import timezone
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -24,12 +24,15 @@ def kpi_list(request):
     kpi_name = request.query_params.get('kpi_name', None)
     if not kpi_name:
         return Response({'error': 'kpi_name request param wasn\'t set'}, status=400)
-    now = datetime.datetime.now()
-    time_frame = [now - datetime.timedelta(hours=1), now]
+    
+    base_time = datetime.strptime("2017-05-21 17:15:00+00:00", "%Y-%m-%d %H:%M:%S%z")
+    time_frame = [base_time - timedelta(hours=1), base_time]
     if user.has_perm('main.view_kpi'):
-
         kpis = KPI.objects.filter(kpi_name=kpi_name, timestamp__range=time_frame)
         serializer = serializers.KPISerializer(kpis, many=True)
-        return Response(serializer.data)
-    
+        response = {
+            'history': serializer.data,
+            'predicted': {}
+        }
+        return Response(response)
     return Response({'error': 'You do not have permission to view KPIs'}, status=403)

@@ -27,7 +27,7 @@ def send_notification(instance):
             'notification': {
                 'title': instance.title,
                 'body': instance.content,
-                'deep_link': 'localhost:3000',
+                'deep_link': 'http://localhost:3000',
             },
             },
         },
