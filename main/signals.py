@@ -5,6 +5,7 @@ from pusher_push_notifications import PushNotifications
 import environ
 import os
 from pathlib import Path
+import pusher
 
 real_time_update = Signal()
 
