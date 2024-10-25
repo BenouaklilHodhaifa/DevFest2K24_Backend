@@ -44,7 +44,9 @@ def kpi_list(request):
     if not kpi_name:
         return Response({'error': 'kpi_name request param wasn\'t set'}, status=400)
     
-    base_time = datetime.strptime("2017-05-21 17:15:00+00:00", "%Y-%m-%d %H:%M:%S%z")
+    latest_kpi = KPI.objects.filter(kpi_name=kpi_name).latest('timestamp')
+
+    base_time = latest_kpi.timestamp
     time_frame = [base_time - timedelta(hours=1), base_time]
     if user.has_perm('main.view_kpi'):
         kpis = KPI.objects.filter(kpi_name=kpi_name, timestamp__range=time_frame)
