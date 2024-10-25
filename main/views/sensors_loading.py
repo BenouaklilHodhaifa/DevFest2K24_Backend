@@ -4,7 +4,7 @@ from .. import serializers
 from django.http import JsonResponse
 from ..models import Notification, InterestGroups
 from random import random
-from ..signals import real_time_update
+# from ..signals import real_time_update
 
 
 norms = {
@@ -134,7 +134,7 @@ def welding(request):
 	if serializer.is_valid():
 		serializer.save()
 
-		real_time_update.send(sender=None, channel=InterestGroups.WELDING_INTEREST_GROUP, event="new_data", data=serializer.data)
+		# real_time_update.send(sender=None, channel=InterestGroups.WELDING_INTEREST_GROUP, event="new_data", data=serializer.data)
 
 		return JsonResponse(serializer.data, status=201)
 	return JsonResponse(serializer.errors, status=400)
@@ -156,7 +156,7 @@ def stamping_press(request):
 	if serializer.is_valid():
 		serializer.save()
 
-		real_time_update.send(sender=None, channel=InterestGroups.STAMPING_PRESS_INTEREST_GROUP, event="new_data", data=serializer.data)
+		# real_time_update.send(sender=None, channel=InterestGroups.STAMPING_PRESS_INTEREST_GROUP, event="new_data", data=serializer.data)
 
 		return JsonResponse(serializer.data, status=201)
 	return JsonResponse(serializer.errors, status=400)
@@ -183,7 +183,7 @@ def painting_robot(request):
 	if serializer.is_valid():
 		serializer.save()
 
-		real_time_update.send(sender=None, channel=InterestGroups.PAINTING_ROBOT_INTEREST_GROUP, event="new_data", data=serializer.data)
+		# real_time_update.send(sender=None, channel=InterestGroups.PAINTING_ROBOT_INTEREST_GROUP, event="new_data", data=serializer.data)
 
 		return JsonResponse(serializer.data, status=201)
 	return JsonResponse(serializer.errors, status=400)
@@ -211,7 +211,7 @@ def agv(request):
 	if serializer.is_valid():
 		serializer.save()
 
-		real_time_update.send(sender=None, channel=InterestGroups.AGV_INTEREST_GROUP, event="new_data", data=serializer.data)
+		# real_time_update.send(sender=None, channel=InterestGroups.AGV_INTEREST_GROUP, event="new_data", data=serializer.data)
 
 		return JsonResponse(serializer.data, status=201)
 	return JsonResponse(serializer.errors, status=400)
@@ -233,7 +233,7 @@ def cnc_milling(request):
 	if serializer.is_valid():
 		serializer.save()
 
-		real_time_update.send(sender=None, channel=InterestGroups.CNC_MILLING_INTEREST_GROUP, event="new_data", data=serializer.data)
+		# real_time_update.send(sender=None, channel=InterestGroups.CNC_MILLING_INTEREST_GROUP, event="new_data", data=serializer.data)
 
 		return JsonResponse(serializer.data, status=201)
 	return JsonResponse(serializer.errors, status=400)
@@ -257,7 +257,7 @@ def leak_test(request):
 	if serializer.is_valid():
 		serializer.save()
 
-		real_time_update.send(sender=None, channel=InterestGroups.LEAK_TEST_INTEREST_GROUP, event="new_data", data=serializer.data)
+		# real_time_update.send(sender=None, channel=InterestGroups.LEAK_TEST_INTEREST_GROUP, event="new_data", data=serializer.data)
 
 		return JsonResponse(serializer.data, status=201)
 	return JsonResponse(serializer.errors, status=400)
