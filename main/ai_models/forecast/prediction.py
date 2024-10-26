@@ -19,11 +19,12 @@ def forecast(kpi_name, nb_steps, data):
 		forecaster = pickle.load(file)
 
 	df = pd.DataFrame(data)
+	df["timestamp"] = pd.to_datetime(df["timestamp"])
 	df = df.drop_duplicates(subset='timestamp', keep='first')
 	df["Timestamp"] = df["timestamp"]
 	df["KPI_Value"] = df["kpi_value"]
 	df.drop(columns = ["timestamp", "kpi_value"])
-	df["Timestamp"] = pd.to_datetime(df["Timestamp"])
+	
 	df = df.sort_values(by="Timestamp")
 	df.set_index("Timestamp", inplace=True)
 	df = df.asfreq("T")
