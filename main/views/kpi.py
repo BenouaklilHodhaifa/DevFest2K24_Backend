@@ -6,10 +6,9 @@ from ..models import KPI, Account, Notification, InterestGroups
 from ..signals import real_time_update
 from datetime import timedelta
 from main.signals import real_time_update
-from data.data_preparing import dfs
 import re
 from main.ai_models.classify.pure import predict as classify_kpi
-
+from main.ai_models.forecast.prediction import forecast
 def to_snake_case(text):
     # First, convert CamelCase or PascalCase to snake_case
     text = re.sub(r'(?<!^)(?=[A-Z])', '_', text).lower()
@@ -42,9 +41,29 @@ def log_kpi(request):
         status = classify_kpi(data=data, kpi=kpi.kpi_name)
         kpi.status = status
         kpi.save()
-
-        # classify the KPI
         # predicted future steps (with alert raising if anomaly classified)
+
+        data = {
+            "timestamp": [],
+            "kpi_value": []
+        }
+        for d in data_serializer.data:
+            data["timestamp"].append(d["timestamp"])
+            data["kpi_value"].append(d["kpi_value"])
+        data["timestamp"].append(kpi.timestamp)
+        data["kpi_value"].append(kpi.kpi_value)
+
+        df = forecast(kpi.kpi_name, 10, data)
+        df["KPI_Name"] = kpi.kpi_name
+        df['Status'] = False
+
+        predicted = []
+        for i in range(1, 11):
+            predicted.append({
+                'timestamp': df.index[-i],
+                'kpi_value': df['KPI_Value'][-i],
+                'status': df['Status'][-i]
+            })
 
         real_time_update.send(
         sender=None,
@@ -52,7 +71,7 @@ def log_kpi(request):
         event='new_data',
         data={
             "history": serializer.data,
-            "predicted": []
+            "predicted": predicted
         }
         )
         if kpi.status == True:

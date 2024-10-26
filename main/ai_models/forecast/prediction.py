@@ -10,44 +10,41 @@ from skforecast.model_selection import backtesting_forecaster
 import numpy as np
 from sklearn.metrics import mean_absolute_error as mae
 
-def forecast(kpi_name, nb_steps, data): # data (Timestamp, KPI_Value)
-    with open(f'model-{kpi_name}.pkl', 'rb') as file:
-        forecaster = pickle.load(file)
+def forecast(kpi_name, nb_steps, data):
 
-    df = pd.DataFrame(data)
+	with open(f'model-{kpi_name}.pkl', 'rb') as file:
+		forecaster = pickle.load(file)
 
-    data['Timestamp'] = data['timestamp']
-    data.pop('timestamp')
-    data['KPI_Value'] = float(data['kpi_value'])
-    data.pop('kpi_value')
+	df = pd.DataFrame(data)
+	df["Timestamp"] = df["timestamp"]
+	df["KPI_Value"] = df["kpi_value"]
+	df.drop(columns = ["timestamp", "kpi_value"])
+	df["Timestamp"] = pd.to_datetime(df["Timestamp"])
+	df = df.sort_values(by="Timestamp")
+	df.set_index("Timestamp", inplace=True)
+	df = df.asfreq("T")
+	df.interpolate(method="linear")
 
-    
+	df['day_of_week'] = df.index.dayofweek
+	df['day'] = df.index.day
+	df['month'] = df.index.month
+	df['hour'] = df.index.hour
+	df['day_sin'] = np.sin(2 * np.pi * df['day_of_week'] / 7)
+	df['day_cos'] = np.cos(2 * np.pi * df['day_of_week'] / 7)
 
-    df["Timestamp"] = pd.to_datetime((df["Timestamp"]))
-    df = df.sort_values(by="Timestamp")
-    df = df.set_index("Timestamp")
-    
-    df['day_of_week'] = df.index.dayofweek
-    df['day'] = df.index.day
-    df['month'] = df.index.month
-    df['hour'] = df.index.hour
-    df['day_sin'] = np.sin(2 * np.pi * df['day_of_week'] / 7)
-    df['day_cos'] = np.cos(2 * np.pi * df['day_of_week'] / 7)
-
-    metric, predictions = backtesting_forecaster(
-                    forecaster         = forecaster,
-                    y                  = df["KPI_Value"],
-                    exog			   = df[["day_of_week", "month","hour", "day", "day_sin", "day_cos"]],
-                    steps              = nb_steps,
-                    metric             = 'mean_absolute_error',
-                    initial_train_size = None,
-                    refit              = False,
-                    n_jobs             = 'auto',
-                    verbose            = False, # Change to False to see less information
-                    show_progress      = True
-                )
-    return predictions
-
+	metric, predictions = backtesting_forecaster(
+					forecaster		 = forecaster,
+					y				 = df["KPI_Value"],
+					exog	  =  df[["day_of_week", "month","hour", "day", "day_sin", "day_cos"]],
+					steps			  = nb_steps,
+					metric			 = 'mean_absolute_error',
+					initial_train_size = None,
+					refit			  = False,
+					n_jobs			 = 'auto',
+					verbose			= False, # Change to False to see less information
+					show_progress	  = True
+				)
+	return predictions
 
 data = [
     {'timestamp': '2021-01-01 00:00:00', 'kpi_value': 100},
