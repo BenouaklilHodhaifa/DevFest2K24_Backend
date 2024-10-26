@@ -10,7 +10,9 @@ BASE_DIR = Path(__file__).resolve().parent
 def predict(data: list[dict], kpi: str):
     test_data = pd.DataFrame(data)
     test_data['Timestamp'] = pd.to_datetime(test_data['Timestamp'])
-    test_data = test_data[~test_data.index.duplicated(keep='first')]
+    # test_data = test_data[~test_data.index.duplicated(keep='first')]
+    # remove duplicate timestamps
+    test_data = test_data.drop_duplicates(subset='Timestamp', keep='first')
 
     test_data.set_index('Timestamp', inplace=True)
     test_data.sort_index(inplace=True)
