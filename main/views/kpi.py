@@ -55,17 +55,17 @@ def log_kpi(request):
         data["timestamp"].append(kpi.timestamp)
         data["kpi_value"].append(kpi.kpi_value)
 
-        df = forecast(kpi.kpi_name, 10, data)
-        df["KPI_Name"] = kpi.kpi_name
-        df['Status'] = False
+        # df = forecast(kpi.kpi_name, 10, data)
+        # df["KPI_Name"] = kpi.kpi_name
+        # df['Status'] = False
 
         predicted = []
-        for i in range(1, 11):
-            predicted.append({
-                'timestamp': df.index[-i],
-                'kpi_value': df['KPI_Value'][-i],
-                'status': df['Status'][-i]
-            })
+        # for i in range(1, 11):
+        #     predicted.append({
+        #         'timestamp': df.index[-i],
+        #         'kpi_value': df['KPI_Value'][-i],
+        #         'status': df['Status'][-i]
+        #     })
 
         real_time_update.send(
         sender=None,
