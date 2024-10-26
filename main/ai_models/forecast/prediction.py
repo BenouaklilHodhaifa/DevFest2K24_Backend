@@ -19,7 +19,7 @@ def forecast(kpi_name, nb_steps, data):
 		forecaster = pickle.load(file)
 
 	df = pd.DataFrame(data)
-	df.drop_duplicates(subset=['timestamp'], inplace=True)
+	df = df.drop_duplicates(subset='timestamp', keep='first')
 	df["Timestamp"] = df["timestamp"]
 	df["KPI_Value"] = df["kpi_value"]
 	df.drop(columns = ["timestamp", "kpi_value"])
