@@ -7,3 +7,4 @@ class MainConfig(AppConfig):
 
     def ready(self) -> None:
             import main.signals
+            import data.data_preparing

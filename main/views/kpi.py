@@ -4,9 +4,11 @@ from .. import serializers
 from rest_framework.response import Response
 from ..models import KPI, Account, Notification, InterestGroups
 from ..signals import real_time_update
-from datetime import datetime, timedelta
+from datetime import timedelta
 from main.signals import real_time_update
+from data.data_preparing import dfs
 import re
+from main.ai_models.classify.pure import predict as classify_kpi
 
 def to_snake_case(text):
     # First, convert CamelCase or PascalCase to snake_case
@@ -24,6 +26,25 @@ def log_kpi(request):
     
     if serializer.is_valid():
         kpi = serializer.save()
+        model_input = []
+        latest_kpi = KPI.objects.filter(kpi_name=kpi.kpi_name).latest('timestamp')
+        base_time = latest_kpi.timestamp
+        time_frame = [base_time - timedelta(minutes=50), base_time]
+        kpis = KPI.objects.filter(kpi_name=kpi.kpi_name, timestamp__range=time_frame)
+        data_serializer = serializers.KPISerializer(kpis, many=True) 
+        data = []
+        for d in data_serializer.data:
+            data.append({'Timestamp': d['timestamp'], 'KPI_Value': d['kpi_value']})
+        data.append(
+            {'Timestamp': kpi['timestamp'], 'KPI_Value': kpi['kpi_value']}
+        )
+         # i call mouh's prediction 
+        status = classify_kpi(data=data, kpi=kpi.kpi_name)
+        kpi.status = status
+        kpi.save()
+
+        # classify the KPI
+        # predicted future steps (with alert raising if anomaly classified)
 
         real_time_update.send(
         sender=None,
@@ -65,3 +86,9 @@ def kpi_list(request):
         }
         return Response(response)
     return Response({'error': 'You do not have permission to view KPIs'}, status=403)
+
+def get_predicted_kpi(kpi_name, base_time):
+    df = dfs[kpi_name]
+    for i, row in df.iterrows():
+        if row['Timestamp'] > base_time:
+            return df.iloc[i+1:i+11]

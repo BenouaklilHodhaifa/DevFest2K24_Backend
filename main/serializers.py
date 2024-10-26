@@ -165,3 +165,6 @@ class KPISerializer(serializers.ModelSerializer):
     class Meta:
         model = KPI
         fields = '__all__'
+        extra_kwargs = {
+             'status': {'required': False},
+        }
