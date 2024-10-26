@@ -106,8 +106,3 @@ def kpi_list(request):
         return Response(response)
     return Response({'error': 'You do not have permission to view KPIs'}, status=403)
 
-def get_predicted_kpi(kpi_name, base_time):
-    df = dfs[kpi_name]
-    for i, row in df.iterrows():
-        if row['Timestamp'] > base_time:
-            return df.iloc[i+1:i+11]
