@@ -9,10 +9,13 @@ from skforecast.model_selection import backtesting_forecaster
 # from matplotlib import pyplot as plt
 import numpy as np
 from sklearn.metrics import mean_absolute_error as mae
+from pathlib import Path
+import os
+BASE_DIR = Path(__file__).resolve().parent
 
 def forecast(kpi_name, nb_steps, data):
 
-	with open(f'model-{kpi_name}.pkl', 'rb') as file:
+	with open(os.path.join(BASE_DIR, f'model-{kpi_name}.pkl') , 'rb') as file:
 		forecaster = pickle.load(file)
 
 	df = pd.DataFrame(data)

@@ -9,6 +9,8 @@ from main.signals import real_time_update
 import re
 from main.ai_models.classify.pure import predict as classify_kpi
 from main.ai_models.forecast.prediction import forecast
+
+
 def to_snake_case(text):
     # First, convert CamelCase or PascalCase to snake_case
     text = re.sub(r'(?<!^)(?=[A-Z])', '_', text).lower()

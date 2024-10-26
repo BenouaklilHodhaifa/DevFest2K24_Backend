@@ -2,6 +2,9 @@ import pandas as pd
 import numpy as np
 import joblib
 import xgboost as xgb
+from pathlib import Path
+import os
+BASE_DIR = Path(__file__).resolve().parent
 
 
 def predict(data: list[dict], kpi: str):
@@ -35,6 +38,6 @@ def predict(data: list[dict], kpi: str):
     if not len(test_data):
         raise Exception("No enough data to make a prediction")
 
-    model: xgb.XGBClassifier = joblib.load(f'models/{kpi}_model.pkl')
+    model: xgb.XGBClassifier = joblib.load(os.path.join(BASE_DIR,  f'models/{kpi}_model.pkl'))
     pred = model.predict(test_data)
     return bool(pred[-1])
