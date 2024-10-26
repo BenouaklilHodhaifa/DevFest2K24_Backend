@@ -40,7 +40,7 @@ def log_kpi(request):
             {'Timestamp': kpi.timestamp, 'KPI_Value': kpi.kpi_value}
         )
         status = False #####
-        status = classify_kpi(data=data, kpi=kpi.kpi_name)
+        # status = classify_kpi(data=data, kpi=kpi.kpi_name)
         kpi.status = status
         kpi.save()
         # predicted future steps (with alert raising if anomaly classified)
