@@ -37,7 +37,7 @@ def log_kpi(request):
         for d in data_serializer.data:
             data.append({'Timestamp': d['timestamp'], 'KPI_Value': d['kpi_value']})
         data.append(
-            {'Timestamp': kpi['timestamp'], 'KPI_Value': kpi['kpi_value']}
+            {'Timestamp': kpi.timestamp, 'KPI_Value': kpi.kpi_value}
         )
          # i call mouh's prediction 
         status = classify_kpi(data=data, kpi=kpi.kpi_name)
