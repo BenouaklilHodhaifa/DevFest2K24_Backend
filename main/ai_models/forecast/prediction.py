@@ -23,7 +23,7 @@ def forecast(kpi_name, nb_steps, data):
 	df = df.drop_duplicates(subset='timestamp', keep='first')
 	df["Timestamp"] = df["timestamp"]
 	df["KPI_Value"] = df["kpi_value"]
-	df.drop(columns = ["timestamp", "kpi_value"])
+	df = df.drop(columns = ["timestamp", "kpi_value"])
 	
 	df = df.sort_values(by="Timestamp")
 	df.set_index("Timestamp", inplace=True)
