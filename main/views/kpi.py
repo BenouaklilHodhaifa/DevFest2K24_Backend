@@ -39,8 +39,8 @@ def log_kpi(request):
         data.append(
             {'Timestamp': kpi.timestamp, 'KPI_Value': kpi.kpi_value}
         )
-         # i call mouh's prediction 
-        status = classify_kpi(data=data, kpi=kpi.kpi_name)
+        status = False #####
+        # status = classify_kpi(data=data, kpi=kpi.kpi_name)
         kpi.status = status
         kpi.save()
         # predicted future steps (with alert raising if anomaly classified)
